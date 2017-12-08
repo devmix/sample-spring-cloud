@@ -1,0 +1,21 @@
+server:
+  port: 8761
+
+eureka:
+  environment: dev
+  instance:
+    preferIpAddress: true
+    hostname: 0.0.0.0
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+    evictionIntervalTimerInMs: 30000
+
+logging:
+  level:
+    org.apache.zookeeper.ClientCnxn: INFO

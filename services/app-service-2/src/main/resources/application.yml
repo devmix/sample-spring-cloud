@@ -1,0 +1,65 @@
+server:
+  port: 8081
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+
+management:
+  port: 8991
+
+logging:
+  level:
+    root: INFO
+#    org.apache.kafka: DEBUG
+
+eureka:
+  instance:
+    metadataMap:
+      instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    preferIpAddress: true
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 5
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: ${SERVICE_REGISTRY_LIST:http://localhost:8761/eureka/}
+
+ribbon:
+  eureka:
+    enabled: true
+  MaxAutoRetries: 3
+  MaxAutoRetriesNextServer: 1
+  ReadTimeout: 1000
+
+feign:
+  hystrix:
+    enabled: true
+
+spring:
+  cloud:
+    bus:
+      enabled: true
+      trace:
+        enabled: true
+
+    stream:
+      bindings:
+        springCloudBusInput:
+          group: spring-global-bus-app-2
+#        springCloudBusOutput:
+#          producer:
+#            partitionCount: 3
+        input:
+          group: spring-stream-1
+          destination: stream-topic-1
+          content-type: application/json
+
+    kafka:
+      binder:
+        zkNodes: ${KAFKA_NODES:localhost:9092}
+        brokers: ${KAFKA_BROKERS:localhost:2181}

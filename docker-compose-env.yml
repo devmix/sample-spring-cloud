@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  mongodb:
+    image: library/mongo:3.6
+    container_name: sample-spring-cloud-mongodb
+    ports:
+      - 27017:27017
+
+  elasticsearch:
+    image: library/elasticsearch:2.4
+    container_name: sample-spring-cloud-elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+  zookeeper:
+    image: netflixoss/exhibitor:1.5.2
+    container_name: sample-spring-cloud-zookeeper
+    ports:
+      - "8400:8080"
+      - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
+
+  kafka:
+    image: wurstmeister/kafka:1.0.0
+    container_name: sample-spring-cloud-kafka
+    depends_on:
+     - zookeeper
+    ports:
+      - 9092:9092
+    env_file:
+     - docker-compose-services.env
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181

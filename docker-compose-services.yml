@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+#  config:
+#    image: services/sample-spring-cloud/services-config:latest
+#    container_name: sample-spring-cloud-config
+#    ports:
+#      - 8888:8888
+  registry:
+    image: sample-spring-cloud/services-registry:latest
+    container_name: sample-spring-cloud-registry
+    ports:
+      - 8761:8761
+    env_file:
+     - docker-compose-services.env
+
+  app-service-1:
+    image: sample-spring-cloud/services-app-service-1:latest
+    container_name: sample-spring-cloud-app1
+    depends_on:
+     - registry
+    ports:
+      - 8080:8080
+    env_file:
+     - docker-compose-services.env
+
+  app-service-2:
+    image: sample-spring-cloud/services-app-service-2:latest
+    container_name: sample-spring-cloud-app2
+    depends_on:
+     - registry
+    ports:
+      - 8081:8081
+    env_file:
+     - docker-compose-services.env
+
+  app-ui-emberjs:
+    image: sample-spring-cloud/services-app-ui-emberjs:latest
+    container_name: sample-spring-cloud-ui-emberjs
+    depends_on:
+     - registry
+     - app-service-1
+     - app-service-2
+    ports:
+      - 9080:9080
+    env_file:
+     - docker-compose-services.env
+
+  app-ui-angular:
+    image: sample-spring-cloud/services-app-ui-angular:latest
+    container_name: sample-spring-cloud-ui-angular
+    depends_on:
+     - registry
+     - app-service-1
+     - app-service-2
+    ports:
+      - 9081:9081
+    env_file:
+     - docker-compose-services.env

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: services-config
+  cloud:
+    zookeeper:
+      connect-string: ${ZOOKEEPER_HOST:localhost}:${ZOOKEEPER_PORT:2181}
+      config:
+        enabled: true

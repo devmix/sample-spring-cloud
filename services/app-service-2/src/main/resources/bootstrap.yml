@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: services-app-2
+  cloud:
+#    config:
+#      uri: ${CONFIG_SERVER_URL:http://localhost:8888}
+    zookeeper:
+      connect-string: ${ZOOKEEPER_HOST:localhost}:${ZOOKEEPER_PORT:2181}
+      config:
+        enabled: true
+        root: spring-config

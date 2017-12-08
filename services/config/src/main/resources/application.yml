@@ -1,0 +1,17 @@
+server:
+  port: ${SERVICE_CONFIG_PORT:8888}
+
+management:
+  context-path: /admin
+  
+logging:
+  level:
+#    com.netflix.discovery: 'OFF'
+    org.springframework.cloud: 'DEBUG'
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/devmix/sample-spring-cloud-config-repo
